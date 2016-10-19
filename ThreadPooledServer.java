@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 public class ThreadPooledServer implements Runnable{
 
     protected int          serverPort   = 8080;
-    protected ServerSocket serverSocket = null;
+    protected ServerSocket listener = null;
     protected boolean      isStopped    = false;
     protected Thread       runningThread= null;
     protected ExecutorService threadPool =
@@ -29,7 +29,7 @@ public class ThreadPooledServer implements Runnable{
             Socket clientSocket = null;
             try 
             {
-                clientSocket = this.serverSocket.accept();
+                clientSocket = this.listener.accept();
             } 
             catch (IOException e) 
             {
@@ -58,7 +58,7 @@ public class ThreadPooledServer implements Runnable{
     public synchronized void stop(){
         this.isStopped = true;
         try {
-            this.serverSocket.close();
+            this.listener.close();
         } catch (IOException e) {
             throw new RuntimeException("Error closing server", e);
         }
@@ -66,14 +66,14 @@ public class ThreadPooledServer implements Runnable{
 
     private void openServerSocket() {
         try {
-            this.serverSocket = new ServerSocket(this.serverPort);
+            this.listener = new ServerSocket(this.serverPort);
         } catch (IOException e) {
             throw new RuntimeException("Cannot open port 8080", e);
         }
     }
 
     public static void main(String args[]){
-        ThreadPooledServer server1 = new ThreadPooledServer(9000);
+        ThreadPooledServer server = new ThreadPooledServer(9000); //receiving
         ThreadPooledServer server2 = new ThreadPooledServer(9001);
         System.out.println("Server started.");
         new Thread(server).start();
