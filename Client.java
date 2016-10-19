@@ -17,34 +17,36 @@ public class Client {
 	{
 		try{
 			//create a socket to connect to the server
-			requestSocket = new Socket("localhost", 8000);
-			System.out.println("Connected to localhost in port 8000");
+			requestSocket = new Socket("localhost", 9000);
+			System.out.println("Connected to localhost in port 9000");
 			//initialize inputStream and outputStream
-			out = new ObjectOutputStream(requestSocket.getOutputStream());
-			out.flush();
-			in = new ObjectInputStream(requestSocket.getInputStream());
+			// out = new ObjectOutputStream(requestSocket.getOutputStream());
+			// out.flush();
+			// in = new ObjectInputStream(requestSocket.getInputStream());
 			
-			//get Input from standard input
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-			while(true)
-			{
-				System.out.print("Hello, please input a sentence: ");
-				//read a sentence from the standard input
-				message = bufferedReader.readLine();
-				//Send the sentence to the server
-				sendMessage(message);
+			// //get Input from standard input
+			// BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+			// while(true)
+			// {
+			// 	System.out.print("Hello, please input a sentence: ");
+			// 	//read a sentence from the standard input
+			// 	message = bufferedReader.readLine();
+			// 	//Send the sentence to the server
+			// 	sendMessage(message);
 				//Receive the upperCase sentence from the server
-				MESSAGE = (String)in.readObject();
+		BufferedReader in =
+        	new BufferedReader(
+            	new InputStreamReader(requestSocket.getInputStream()));
+
+				MESSAGE = (String)in.readLine();
 				//show the message to the user
 				System.out.println("Receive message: " + MESSAGE);
-			}
-		}
-		catch (ConnectException e) {
+		// 	}
+		 }
+		 catch (ConnectException e) {
     			System.err.println("Connection refused. You need to initiate a server first.");
 		} 
-		catch ( ClassNotFoundException e ) {
-            		System.err.println("Class not found");
-        	} 
+
 		catch(UnknownHostException unknownHost){
 			System.err.println("You are trying to connect to an unknown host!");
 		}
@@ -54,8 +56,6 @@ public class Client {
 		finally{
 			//Close connections
 			try{
-				in.close();
-				out.close();
 				requestSocket.close();
 			}
 			catch(IOException ioException){
