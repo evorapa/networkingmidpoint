@@ -20,19 +20,19 @@ public class Client {
 			requestSocket = new Socket("localhost", 9000);
 			System.out.println("Connected to localhost in port 9000");
 			//initialize inputStream and outputStream
-			// out = new ObjectOutputStream(requestSocket.getOutputStream());
-			// out.flush();
-			// in = new ObjectInputStream(requestSocket.getInputStream());
+			out = new ObjectOutputStream(requestSocket.getOutputStream());
+			out.flush();
+			in = new ObjectInputStream(requestSocket.getInputStream());
 			
 			// //get Input from standard input
-			// BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-			// while(true)
-			// {
-			// 	System.out.print("Hello, please input a sentence: ");
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+			while(true)
+			{
+				System.out.print("Hello, please input a sentence: ");
 			// 	//read a sentence from the standard input
-			// 	message = bufferedReader.readLine();
+				message = bufferedReader.readLine();
 			// 	//Send the sentence to the server
-			// 	sendMessage(message);
+				sendMessage(message);
 				//Receive the upperCase sentence from the server
 		BufferedReader in =
         	new BufferedReader(
@@ -41,7 +41,7 @@ public class Client {
 				MESSAGE = (String)in.readLine();
 				//show the message to the user
 				System.out.println("Receive message: " + MESSAGE);
-		// 	}
+		 	}
 		 }
 		 catch (ConnectException e) {
     			System.err.println("Connection refused. You need to initiate a server first.");

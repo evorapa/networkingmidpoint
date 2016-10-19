@@ -17,17 +17,24 @@ public class ThreadPooledServer implements Runnable{
         this.serverPort = port;
     }
 
-    public void run(){
+    public void run()
+    {
         synchronized(this){
             this.runningThread = Thread.currentThread();
         }
         openServerSocket();
-        while(! isStopped()){
+        int clientNum = 1;
+        while(! isStopped())
+        {
             Socket clientSocket = null;
-            try {
+            try 
+            {
                 clientSocket = this.serverSocket.accept();
-            } catch (IOException e) {
-                if(isStopped()) {
+            } 
+            catch (IOException e) 
+            {
+                if(isStopped()) 
+                {
                     System.out.println("Server Stopped.") ;
                     break;
                 }
@@ -35,8 +42,9 @@ public class ThreadPooledServer implements Runnable{
                     "Error accepting client connection", e);
             }
             this.threadPool.execute(
-                new WorkerRunnable(clientSocket,
-                    "Thread Pooled Server"));
+                new WorkerRunnable(clientSocket, clientNum));
+            System.out.println("Client "  + clientNum + " is connected!");
+            clientNum++;
         }
         this.threadPool.shutdown();
         System.out.println("Server Stopped.") ;
@@ -65,7 +73,8 @@ public class ThreadPooledServer implements Runnable{
     }
 
     public static void main(String args[]){
-        ThreadPooledServer server = new ThreadPooledServer(9000);
+        ThreadPooledServer server1 = new ThreadPooledServer(9000);
+        ThreadPooledServer server2 = new ThreadPooledServer(9001);
         System.out.println("Server started.");
         new Thread(server).start();
 
