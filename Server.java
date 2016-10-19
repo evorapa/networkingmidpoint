@@ -15,8 +15,8 @@ public class Server {
         	try {
             		while(true) {
                 		new Handler(listener.accept(),clientNum).start();
-				System.out.println("Client "  + clientNum + " is connected!");
-				clientNum++;
+						System.out.println("Client "  + clientNum + " is connected!");
+						clientNum++;
             			}
         	} finally {
             		listener.close();
@@ -30,15 +30,15 @@ public class Server {
      	*/
     	private static class Handler extends Thread {
         	private String message;    //message received from the client
-		private String MESSAGE;    //uppercase message send to the client
-		private Socket connection;
+			private String MESSAGE;    //uppercase message send to the client
+			private Socket connection;
         	private ObjectInputStream in;	//stream read from the socket
         	private ObjectOutputStream out;    //stream write to the socket
-		private int no;		//The index number of the client
+			private int no;		//The index number of the client
 
         	public Handler(Socket connection, int no) {
             		this.connection = connection;
-	    		this.no = no;
+	    			this.no = no;
         	}
 
         public void run() {
