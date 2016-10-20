@@ -4,7 +4,7 @@ import java.nio.*;
 import java.nio.channels.*;
 import java.util.*;
 
-public class Client {
+public class Client implements Runnable{
 	Socket requestSocket;           //socket connect to the server
 	ObjectOutputStream out;         //stream write to the socket
  	ObjectInputStream in;          //stream read from the socket
@@ -13,7 +13,7 @@ public class Client {
 
 	public void Client() {}
 
-	void run()
+	public void run()
 	{
 		try{
 			//create a socket to connect to the server
