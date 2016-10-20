@@ -4,20 +4,28 @@ import java.nio.*;
 import java.nio.channels.*;
 import java.util.*;
 
-public class Client {
+public class Client implements Runnable{
 	Socket requestSocket;           //socket connect to the server
 	ObjectOutputStream out;         //stream write to the socket
  	ObjectInputStream in;          //stream read from the socket
 	String message;                //message send to the server
 	String MESSAGE;                //capitalized message read from the server
+	int id;
 
-	public void Client() {}
+	public Client(int id){
+		this.id = id;
+		this.run();
+	}
 
-	void run()
+	public int getId()
+	{
+		return id;
+	}
+	public void run()
 	{
 		try{
 			//create a socket to connect to the server
-			requestSocket = new Socket("localhost", 8000);
+			requestSocket = new Socket("localhost", 9000);
 			System.out.println("Connected to localhost in port 9000");
 			//initialize inputStream and outputStream
 			out = new ObjectOutputStream(requestSocket.getOutputStream());
@@ -76,10 +84,11 @@ public class Client {
 		}
 	}
 	//main method
+	/*
 	public static void main(String args[])
 	{
 		Client client = new Client();
 		client.run();
-	}
+	}*/
 
 }

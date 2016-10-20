@@ -3,11 +3,12 @@ import java.net.Socket;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.Random;
 
 public class ThreadPooledServer implements Runnable{
 
-    protected int          serverPort   = 8080;
-    protected ServerSocket listener = null;
+    protected int          serverPort   = 8080; //PORT THE LISTENER IS ON [8080 overridden]
+    protected ServerSocket listener = null;  //LISTENER: WELCOME RECEIVER FOR ALL CONNECTIONS
     protected boolean      isStopped    = false;
     protected Thread       runningThread= null;
     protected ExecutorService threadPool =
@@ -26,10 +27,11 @@ public class ThreadPooledServer implements Runnable{
         int clientNum = 1;
         while(! isStopped())
         {
-            Socket clientSocket = null;
+            Socket clientSocket = null; //CLIENT SOCKET: RECEIVING FOR A PARTICULAR CONNECTION
             try 
             {
                 clientSocket = this.listener.accept();
+                System.out.println(clientSocket);
             } 
             catch (IOException e) 
             {
@@ -72,19 +74,16 @@ public class ThreadPooledServer implements Runnable{
         }
     }
 
-    public static void main(String args[]){
-        ThreadPooledServer server = new ThreadPooledServer(9000); //receiving
-        ThreadPooledServer server2 = new ThreadPooledServer(9001);
-        System.out.println("Server started.");
-        new Thread(server).start();
+    /*public static void main(String args[]){
+
 
         try {
-            Thread.sleep(20 * 1000);
+            //Thread.sleep(20 * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         System.out.println("Stopping Server");
         server.stop();
-    }
+    }*/
 
 }
