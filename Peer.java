@@ -25,11 +25,11 @@ public class Peer implements Runnable{
 
         public void run(){
                 try{
-                        int myIndex = -1;
+                        int numParsedPeers = -1;
                         //loop through config file
                         for(int i = 0; i<config.getNumPeers(); i++){
-                                //idk what myindex does
-                                myIndex++;
+                                
+                                numParsedPeers++;
                                 //if the peer is me
                                 if(config.getIDs().get(i)==thisID){
                                         System.out.println(thisID + "we broke");
@@ -50,41 +50,18 @@ public class Peer implements Runnable{
                                 out.flush();
                                 System.out.println(thisID + " Sent string");
 
-                                //now read from the socket
-                                // InputStream is1 = socket1.getInputStream();
-                                // System.out.println(thisID + " got input stream");
-                                // int read1;
-                                // byte[] buffer1 = new byte[1024];
-                                // System.out.println("About to read");
-                                // read1= is1.read(buffer1);
-                                // System.out.println("just read");
-                                // System.out.println(read1);
-                                // //while(true) {
-                                // while(read1 != -1) {
-                                //         System.out.println(thisID +" messin with buffer");
-                                //         String output1 = new String(buffer1, 0, read1);
-                                //         System.out.print(thisID + output1);
-                                //         System.out.flush();
-                                // };
-                                //System.out.println(thisID + " about to close the socket");
-                                //socket1.close();
 
                         }
                         //make sockets for listening
                         ServerSocket downloadServSoc = null;
-                        ServerSocket uploadServSoc = null;
-                        ServerSocket haveServSoc = null;
-                        if (myIndex != config.getNumPeers()-1) {
+                        if (numParsedPeers != config.getNumPeers()-1) {
                                 
-        //                              System.out.println("peerProcess: 243: peer " + this.myID +  " starts to listern to the port");
                                 //open these ports and listen
-                                System.out.println(thisID + " About to open port" + config.getDownloadPort(myIndex));
-                                downloadServSoc = new ServerSocket(config.getDownloadPort(myIndex));
+                                System.out.println(thisID + " About to open port" + config.getDownloadPort(numParsedPeers));
+                                downloadServSoc = new ServerSocket(config.getDownloadPort(numParsedPeers));
                                 
-                                for (int i = myIndex; i < config.getNumPeers()-1; i++) {
-                                        //getInitialization(i, downloadServSoc, uploadServSoc, haveServSoc);
-                                        //instead read the socket for the hello message
-                                        //try:
+                                for (int i = numParsedPeers; i < config.getNumPeers()-1; i++) {
+
                                         System.out.println(thisID +" About accept connection");
                                         Socket downloadSoc = downloadServSoc.accept();
                                         System.out.println(thisID +" accepted connection");
@@ -99,23 +76,13 @@ public class Peer implements Runnable{
                                                 break;
                                         };
                                         System.out.println("OUTSIDE OF WHILE LOOP");
-                                        //write to socket 1
-                                        // OutputStream outstream = downloadSoc.getOutputStream(); 
-                                        // PrintWriter out = new PrintWriter(outstream);
 
-                                        // String toSend = "I just wanted to say hello";
-
-                                        // out.print(toSend );
-                                        // out.flush();
-                                        // System.out.println(thisID + "Sent string");
-
-                                        //downloadServSoc.close();
                                 }
-        //                              System.out.println("peerProcess: 251: peer " + this.myID + " finishes getInitialization");
+
                         }
 
                 
-                        if (myIndex != config.getNumPeers() - 1) {
+                        if (numParsedPeers != config.getNumPeers() - 1) {
                                 downloadServSoc.close();
                         } 
 
@@ -124,13 +91,5 @@ public class Peer implements Runnable{
                 }
         }
 
-        //         ThreadPooledServer server = new ThreadPooledServer(port); //receiving
-        
-        // Random r = new Random();
-        // int clientID = r.nextInt(5);
-        // Client client = new Client(clientID);
 
-        // System.out.println("Server started.");
-        // System.out.println("client id: "+clientID);
-        // }
 }

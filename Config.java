@@ -15,7 +15,6 @@ public class Config {
 	
 	private final int numPeers;
 
-
 	public int getNumPeers() {
 		return numPeers;
 	}
@@ -41,6 +40,7 @@ public class Config {
 		
 		IDs = new ArrayList<Integer>();
 		addresses = new ArrayList<String>();
+		downloadPorts = new ArrayList<Integer>();
 		flags = new ArrayList<Boolean>();
 		
 		int count = 0;
