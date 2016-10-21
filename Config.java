@@ -20,7 +20,7 @@ public class Config {
 	}
 
 	
-	public ArrayList<Integer> getDownloadPort() {
+	public ArrayList<Integer> getDownloadPorts() {
 		return downloadPorts;
 	}
 

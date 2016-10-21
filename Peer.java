@@ -32,6 +32,7 @@ public class Peer implements Runnable{
                                 numParsedPeers++;
                                 //if the peer is me
                                 if(config.getIDs().get(i)==thisID){
+                                        //break so that we don't try to connect to ourselves
                                         System.out.println(thisID + "we broke");
                                         break;
                                 }
@@ -53,19 +54,19 @@ public class Peer implements Runnable{
 
                         }
                         //make sockets for listening
-                        ServerSocket downloadServSoc = null;
+                        ServerSocket serverSocket2 = null;
                         if (numParsedPeers != config.getNumPeers()-1) {
                                 
                                 //open these ports and listen
-                                System.out.println(thisID + " About to open port" + config.getDownloadPort().get(numParsedPeers));
-                                downloadServSoc = new ServerSocket(config.getDownloadPort().get(numParsedPeers));
+                                System.out.println(thisID + " About to open port" + config.getDownloadPorts().get(numParsedPeers));
+                                serverSocket2 = new ServerSocket(config.getDownloadPorts().get(numParsedPeers));
                                 
                                 for (int i = numParsedPeers; i < config.getNumPeers()-1; i++) {
 
                                         System.out.println(thisID +" About accept connection");
-                                        Socket downloadSoc = downloadServSoc.accept();
+                                        Socket socket2 = serverSocket2.accept();
                                         System.out.println(thisID +" accepted connection");
-                                        InputStream is = downloadSoc.getInputStream();
+                                        InputStream is = socket2.getInputStream();
                                         int read;
                                         byte[] buffer = new byte[1024];
                                         while((read = is.read(buffer)) != -1) {
@@ -80,11 +81,6 @@ public class Peer implements Runnable{
                                 }
 
                         }
-
-                
-                        if (numParsedPeers != config.getNumPeers() - 1) {
-                                downloadServSoc.close();
-                        } 
 
                 }catch (Exception e) {
                         e.printStackTrace();
