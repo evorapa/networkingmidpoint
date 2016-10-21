@@ -37,7 +37,7 @@ public class Peer implements Runnable{
                                 }
                                 //connect to the peer
                                 System.out.println(thisID +" About to connect to peer ");
-                                Socket socket1 = new Socket(config.getAddresses().get(i), config.getDownloadPort(i));           
+                                Socket socket1 = new Socket(config.getAddresses().get(i), config.getDownloadPort().get(i));           
 
                                 //send the message to the peer
                                 //write to socket 1
@@ -57,8 +57,8 @@ public class Peer implements Runnable{
                         if (numParsedPeers != config.getNumPeers()-1) {
                                 
                                 //open these ports and listen
-                                System.out.println(thisID + " About to open port" + config.getDownloadPort(numParsedPeers));
-                                downloadServSoc = new ServerSocket(config.getDownloadPort(numParsedPeers));
+                                System.out.println(thisID + " About to open port" + config.getDownloadPort().get(numParsedPeers));
+                                downloadServSoc = new ServerSocket(config.getDownloadPort().get(numParsedPeers));
                                 
                                 for (int i = numParsedPeers; i < config.getNumPeers()-1; i++) {
 

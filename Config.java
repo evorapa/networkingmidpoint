@@ -20,8 +20,8 @@ public class Config {
 	}
 
 	
-	public int getDownloadPort(int index) {
-		return downloadPorts.get(index);
+	public ArrayList<Integer> getDownloadPort() {
+		return downloadPorts;
 	}
 
 
