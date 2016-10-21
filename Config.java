@@ -11,8 +11,7 @@ public class Config {
 	private final ArrayList<Integer> IDs;
 	private final ArrayList<String> addresses;
 	private final ArrayList<Integer> downloadPorts;
-	private final ArrayList<Boolean> flags;
-	
+
 	private final int numPeers;
 
 	public int getNumPeers() {
@@ -50,13 +49,8 @@ public class Config {
 			String s = peerInfoScnr.nextLine();
 			String[] split = s.split(" ");
 			this.IDs.add(Integer.parseInt(split[0]));
-			this.addresses.add(split[1].trim());
+			this.addresses.add(split[1]);
 			this.downloadPorts.add(Integer.parseInt(split[2]));
-			if (split[3].trim().equals("1")) {
-				this.flags.add(true);
-			} else {
-				this.flags.add(false);
-			}
 			
 		}
 		
