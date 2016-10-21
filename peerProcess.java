@@ -5,7 +5,7 @@ import java.nio.channels.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class Peer implements Runnable{
+public class peerProcess implements Runnable{
 
         // Client client;
         // ThreadPooledServer server;
@@ -13,7 +13,7 @@ public class Peer implements Runnable{
         private Config config;
         private int thisID;
 
-	public Peer(int thisID){
+	public peerProcess(int thisID){
 		this.thisID = thisID;
                 try{
                         this.config = new Config("PeerInfo.cfg");
@@ -27,14 +27,19 @@ public class Peer implements Runnable{
                 try{
                         int numParsedPeers = -1;
                         //loop through config file
+                        //we connect to peers that are already listening to connections
+                        //makes TCP connections to all the peers started before it
+                        //so the first peer will not connect to anything, it will just start listening for incoming conns
                         for(int i = 0; i<config.getNumPeers(); i++){
                                 
                                 numParsedPeers++;
                                 //if the peer is me
                                 if(config.getIDs().get(i)==thisID){
                                         //break so that we don't try to connect to ourselves
-                                        System.out.println(thisID + "we broke");
+                                        System.out.println(thisID + " we broke");
                                         break;
+                                        //this also means we aren't going to connect to any of the peers listed below our own entry
+                                        //but they might connect to us
                                 }
                                 //connect to the peer
                                 System.out.println(thisID +" About to connect to peer ");
@@ -55,37 +60,34 @@ public class Peer implements Runnable{
                         }
                         //make sockets for listening
                         ServerSocket serverSocket2 = null;
+
+                        //if we aren't the last peer
                         if (numParsedPeers != config.getNumPeers()-1) {
                                 
                                 //open these ports and listen
                                 System.out.println(thisID + " About to open port" + config.getDownloadPorts().get(numParsedPeers));
                                 serverSocket2 = new ServerSocket(config.getDownloadPorts().get(numParsedPeers));
                                 
+                                //once a peer connects to a socket, they will send a hello message 
+                                //read the data in each socket after there has been a connection
                                 for (int i = numParsedPeers; i < config.getNumPeers()-1; i++) {
-
+                                        //accept an incoming connection
                                         System.out.println(thisID +" About accept connection");
                                         Socket socket2 = serverSocket2.accept();
                                         System.out.println(thisID +" accepted connection");
                                         InputStream is = socket2.getInputStream();
                                         int read;
+                                        //create a buffer to read the string that has been recieved
                                         byte[] buffer = new byte[1024];
-                                        while((read = is.read(buffer)) != -1) {
-                                                System.out.println(thisID +" messin with buffer");
-                                                String output = new String(buffer, 0, read);
-                                                System.out.print(thisID + output);
-                                                System.out.flush();
-                                                break;
-                                        };
-                                        System.out.println("OUTSIDE OF WHILE LOOP");
-
+                                        read = is.read(buffer);
+                                        String output = new String(buffer, 0, read);
+                                        System.out.print(thisID + output);
+                                        System.out.flush();
                                 }
-
                         }
 
                 }catch (Exception e) {
                         e.printStackTrace();
                 }
         }
-
-
 }
