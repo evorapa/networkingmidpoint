@@ -11,7 +11,6 @@ public class Config {
 	private final ArrayList<Integer> IDs;
 	private final ArrayList<String> addresses;
 	private final ArrayList<Integer> downloadPorts;
-
 	private final int numPeers;
 
 	public int getNumPeers() {
@@ -40,7 +39,6 @@ public class Config {
 		IDs = new ArrayList<Integer>();
 		addresses = new ArrayList<String>();
 		downloadPorts = new ArrayList<Integer>();
-		flags = new ArrayList<Boolean>();
 		
 		int count = 0;
 		while (peerInfoScnr.hasNextLine()) {
