@@ -12,7 +12,6 @@ public class Peer implements Runnable{
 
         private Config config;
         private int thisID;
-        private int numNeighbors;
 
 	public Peer(int thisID){
 		this.thisID = thisID;
@@ -22,7 +21,6 @@ public class Peer implements Runnable{
                         e.printStackTrace();
                 }
                 
-                this.numNeighbors = config.getNumPeers();
         }
 
         public void run(){
@@ -40,8 +38,6 @@ public class Peer implements Runnable{
                                 //connect to the peer
                                 System.out.println(thisID +" About to connect to peer ");
                                 Socket socket1 = new Socket(config.getAddresses().get(i), config.getDownloadPort(i));           
-                                Socket socket2 = new Socket(config.getAddresses().get(i), config.getUploadPort(i));
-                                Socket socket3 = new Socket(config.getAddresses().get(i), config.getHavePort(i));
 
                                 //send the message to the peer
                                 //write to socket 1
@@ -84,8 +80,6 @@ public class Peer implements Runnable{
                                 //open these ports and listen
                                 System.out.println(thisID + " About to open port" + config.getDownloadPort(myIndex));
                                 downloadServSoc = new ServerSocket(config.getDownloadPort(myIndex));
-                                uploadServSoc = new ServerSocket(config.getUploadPort(myIndex));
-                                haveServSoc = new ServerSocket(config.getHavePort(myIndex));
                                 
                                 for (int i = myIndex; i < config.getNumPeers()-1; i++) {
                                         //getInitialization(i, downloadServSoc, uploadServSoc, haveServSoc);
@@ -102,6 +96,7 @@ public class Peer implements Runnable{
                                                 String output = new String(buffer, 0, read);
                                                 System.out.print(thisID + output);
                                                 System.out.flush();
+                                                break;
                                         };
                                         System.out.println("OUTSIDE OF WHILE LOOP");
                                         //write to socket 1
@@ -122,8 +117,6 @@ public class Peer implements Runnable{
                 
                         if (myIndex != config.getNumPeers() - 1) {
                                 downloadServSoc.close();
-                                uploadServSoc.close();
-                                haveServSoc.close();
                         } 
 
                 }catch (Exception e) {

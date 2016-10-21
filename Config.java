@@ -14,8 +14,6 @@ public class Config {
 	private final ArrayList<Boolean> flags;
 	
 	private final int numPeers;
-	private final ArrayList<Integer> uploadPorts;
-	private final ArrayList<Integer> havePorts;
 
 
 	public int getNumPeers() {
@@ -25,16 +23,6 @@ public class Config {
 	
 	public int getDownloadPort(int index) {
 		return downloadPorts.get(index);
-	}
-
-
-	public int getUploadPort(int index) {
-		return uploadPorts.get(index);
-	}
-
-
-	public int getHavePort(int index) {
-		return havePorts.get(index);
 	}
 
 
@@ -53,11 +41,7 @@ public class Config {
 		
 		IDs = new ArrayList<Integer>();
 		addresses = new ArrayList<String>();
-		downloadPorts = new ArrayList<Integer>();
 		flags = new ArrayList<Boolean>();
-
-		uploadPorts = new ArrayList<Integer>();
-		havePorts = new ArrayList<Integer>();
 		
 		int count = 0;
 		while (peerInfoScnr.hasNextLine()) {
@@ -68,8 +52,6 @@ public class Config {
 			this.IDs.add(Integer.parseInt(split[0].trim()));
 			this.addresses.add(split[1].trim());
 			this.downloadPorts.add(Integer.parseInt(split[2].trim()));
-			this.uploadPorts.add(Integer.parseInt(split[2].trim()) + 1);
-			this.havePorts.add(Integer.parseInt(split[2].trim()) + 2);
 			if (split[3].trim().equals("1")) {
 				this.flags.add(true);
 			} else {
