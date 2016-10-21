@@ -38,7 +38,7 @@ public class Peer implements Runnable{
                                 }
                                 //connect to the peer
                                 System.out.println(thisID +" About to connect to peer ");
-                                Socket socket1 = new Socket(config.getAddresses().get(i), config.getDownloadPort().get(i));           
+                                Socket socket1 = new Socket(config.getAddresses().get(i), config.getDownloadPorts().get(i));           
 
                                 //send the message to the peer
                                 //write to socket 1

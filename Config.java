@@ -49,9 +49,9 @@ public class Config {
 
 			String s = peerInfoScnr.nextLine();
 			String[] split = s.split(" ");
-			this.IDs.add(Integer.parseInt(split[0].trim()));
+			this.IDs.add(Integer.parseInt(split[0]));
 			this.addresses.add(split[1].trim());
-			this.downloadPorts.add(Integer.parseInt(split[2].trim()));
+			this.downloadPorts.add(Integer.parseInt(split[2]));
 			if (split[3].trim().equals("1")) {
 				this.flags.add(true);
 			} else {
