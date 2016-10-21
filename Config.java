@@ -40,9 +40,9 @@ public class Config {
 		addresses = new ArrayList<String>();
 		downloadPorts = new ArrayList<Integer>();
 		
-		numPeers = 0;
+		int x = 0;
 		while (peerInfoScnr.hasNextLine()) {
-			this.numPeers++;
+			x++;
 
 			String s = peerInfoScnr.nextLine();
 			String[] split = s.split(" ");
@@ -52,7 +52,7 @@ public class Config {
 			
 		}
 		
-		
+		this.numPeers=x;
 		
 	}
 }
