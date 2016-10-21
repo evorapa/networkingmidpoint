@@ -7,14 +7,13 @@ import java.util.concurrent.*;
 
 public class peerProcess implements Runnable{
 
-        // Client client;
-        // ThreadPooledServer server;
-
         private Config config;
         private int thisID;
 
 	public peerProcess(int thisID){
-		this.thisID = thisID;
+		//peer ID was passed in
+                this.thisID = thisID;
+                //set config file location
                 try{
                         this.config = new Config("PeerInfo.cfg");
                 }catch(Exception e){
